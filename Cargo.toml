@@ -1,40 +1,75 @@
 # Its own workspace root, so this repository builds on its own.
-#
-# Every module repository carries this and the template did not, which stopped
-# mattering the moment the template stopped sitting beside the estate: nested at
-# template/rust, cargo walked up, found the root workspace and refused to build.
-#
-# It would have bitten a generated repository the same way. A template that does
-# not obey the estate's rules produces repositories that start out breaking
-# them — doc/governance/rust-style.md section 4.
 [workspace]
 
 [package]
-name = "xmip-template-rust"
+name = "xmip-core-unit"
 version = "0.1.0"
 edition = "2024"
 license = "AGPL-3.0-or-later"
-repository = "https://github.com/IlleNilsson/xmip-template-rust"
-description = "Starter template for a Rust Xmip module repository."
-publish = false
+repository = "https://github.com/IlleNilsson/xmip-core-unit"
+description = "The standard units: Xmip's own module of compiled units at receive, process and send, its manifest written from their declarations."
 
-[lib]
-path = "src/lib.rs"
+[dependencies]
+# The declaration of a unit and the stages it runs at, and the settings
+# shape every declaration is written in.
+node = { package = "xmip-core-node", git = "https://github.com/IlleNilsson/xmip-core-node", branch = "main" }
+xcore = { package = "xmip-core", git = "https://github.com/IlleNilsson/xmip-core", branch = "main" }
+# The capabilities whose units these are, each unit implemented there once.
+prepare = { package = "xmip-core-prepare", git = "https://github.com/IlleNilsson/xmip-core-prepare", branch = "main" }
+transform = { package = "xmip-core-transform", git = "https://github.com/IlleNilsson/xmip-core-transform", branch = "main" }
+contract = { package = "xmip-core-contract", git = "https://github.com/IlleNilsson/xmip-core-contract", branch = "main" }
+path = { package = "xmip-core-path", git = "https://github.com/IlleNilsson/xmip-core-path", branch = "main" }
+promote = { package = "xmip-core-promote", git = "https://github.com/IlleNilsson/xmip-core-promote", branch = "main" }
+demote = { package = "xmip-core-demote", git = "https://github.com/IlleNilsson/xmip-core-demote", branch = "main" }
+process = { package = "xmip-core-process", git = "https://github.com/IlleNilsson/xmip-core-process", branch = "main" }
+# The OpenPGP engines Encryption and Signature choose among.
+rpgp = { package = "xmip-core-prepare-rpgp", git = "https://github.com/IlleNilsson/xmip-core-prepare-rpgp", branch = "main" }
+# The XSLT engines the Stylesheet unit chooses among.
+xrust_engine = { package = "xmip-core-transform-xrust", git = "https://github.com/IlleNilsson/xmip-core-transform-xrust", branch = "main" }
+# The contract technologies Validate holds a Stream to, by its format.
+asyncapi = { package = "xmip-core-contract-asyncapi", git = "https://github.com/IlleNilsson/xmip-core-contract-asyncapi", branch = "main" }
+avro = { package = "xmip-core-contract-avro", git = "https://github.com/IlleNilsson/xmip-core-contract-avro", branch = "main" }
+csv = { package = "xmip-core-contract-csv", git = "https://github.com/IlleNilsson/xmip-core-contract-csv", branch = "main" }
+edifact = { package = "xmip-core-contract-edi-edifact", git = "https://github.com/IlleNilsson/xmip-core-contract-edi-edifact", branch = "main" }
+x12 = { package = "xmip-core-contract-edi-x12", git = "https://github.com/IlleNilsson/xmip-core-contract-edi-x12", branch = "main" }
+fhir = { package = "xmip-core-contract-fhir", git = "https://github.com/IlleNilsson/xmip-core-contract-fhir", branch = "main" }
+fixed_width = { package = "xmip-core-contract-fixed-width", git = "https://github.com/IlleNilsson/xmip-core-contract-fixed-width", branch = "main" }
+graphql_schema = { package = "xmip-core-contract-graphql-schema", git = "https://github.com/IlleNilsson/xmip-core-contract-graphql-schema", branch = "main" }
+hl7_v2 = { package = "xmip-core-contract-hl7-v2", git = "https://github.com/IlleNilsson/xmip-core-contract-hl7-v2", branch = "main" }
+json_schema = { package = "xmip-core-contract-json-schema", git = "https://github.com/IlleNilsson/xmip-core-contract-json-schema", branch = "main" }
+openapi = { package = "xmip-core-contract-openapi", git = "https://github.com/IlleNilsson/xmip-core-contract-openapi", branch = "main" }
+protobuf = { package = "xmip-core-contract-protobuf", git = "https://github.com/IlleNilsson/xmip-core-contract-protobuf", branch = "main" }
+regex = { package = "xmip-core-contract-regex", git = "https://github.com/IlleNilsson/xmip-core-contract-regex", branch = "main" }
+schematron = { package = "xmip-core-contract-schematron", git = "https://github.com/IlleNilsson/xmip-core-contract-schematron", branch = "main" }
+sql = { package = "xmip-core-contract-sql", git = "https://github.com/IlleNilsson/xmip-core-contract-sql", branch = "main" }
+toml = { package = "xmip-core-contract-toml", git = "https://github.com/IlleNilsson/xmip-core-contract-toml", branch = "main" }
+toon = { package = "xmip-core-contract-toon", git = "https://github.com/IlleNilsson/xmip-core-contract-toon", branch = "main" }
+wsdl = { package = "xmip-core-contract-wsdl", git = "https://github.com/IlleNilsson/xmip-core-contract-wsdl", branch = "main" }
+xml_schema = { package = "xmip-core-contract-xml-schema", git = "https://github.com/IlleNilsson/xmip-core-contract-xml-schema", branch = "main" }
+yaml = { package = "xmip-core-contract-yaml", git = "https://github.com/IlleNilsson/xmip-core-contract-yaml", branch = "main" }
+# The path languages Promote and Demote read and write through.
+xpath = { package = "xmip-core-path-xpath", git = "https://github.com/IlleNilsson/xmip-core-path-xpath", branch = "main" }
+jsonpath = { package = "xmip-core-path-jsonpath", git = "https://github.com/IlleNilsson/xmip-core-path-jsonpath", branch = "main" }
+dot = { package = "xmip-core-path-dot", git = "https://github.com/IlleNilsson/xmip-core-path-dot", branch = "main" }
+json_pointer = { package = "xmip-core-path-json-pointer", git = "https://github.com/IlleNilsson/xmip-core-path-json-pointer", branch = "main" }
+index = { package = "xmip-core-path-index", git = "https://github.com/IlleNilsson/xmip-core-path-index", branch = "main" }
+edi = { package = "xmip-core-path-edi", git = "https://github.com/IlleNilsson/xmip-core-path-edi", branch = "main" }
+hl7_v2_path = { package = "xmip-core-path-hl7-v2", git = "https://github.com/IlleNilsson/xmip-core-path-hl7-v2", branch = "main" }
+regex_path = { package = "xmip-core-path-regex", git = "https://github.com/IlleNilsson/xmip-core-path-regex", branch = "main" }
+fhirpath = { package = "xmip-core-path-fhirpath", git = "https://github.com/IlleNilsson/xmip-core-path-fhirpath", branch = "main" }
+
+[dev-dependencies]
+# The counting allocator and the one latency spread the estate's tests
+# measure with.
+xcore = { package = "xmip-core", git = "https://github.com/IlleNilsson/xmip-core", branch = "main", features = ["test-support"] }
+stream = { package = "xmip-core-stream", git = "https://github.com/IlleNilsson/xmip-core-stream", branch = "main" }
+context = { package = "xmip-core-context", git = "https://github.com/IlleNilsson/xmip-core-context", branch = "main" }
 
 [lints.rust]
-# forbid, not deny: a module has no business writing unsafe. The one exception
-# in the estate is xmip-core-abi, which holds the extern "C" vtable over
-# include/xmip_module.h and lowers this to deny with a reason at the call site.
 unsafe_code = "forbid"
 
 [lints.clippy]
-# Warned, never denied. doc/governance/rust-style.md section 3: a function
-# length gate was tried in this estate's PowerShell and produced a sixteen-entry
-# waiver list while catching nothing. The number worth reading is branches, and
-# clippy prints both.
 too_many_lines = "warn"
-
-# The ones that catch real defects rather than taste.
 pedantic = { level = "warn", priority = -1 }
 missing_errors_doc = "warn"
 missing_panics_doc = "warn"
