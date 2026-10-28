@@ -1,5 +1,5 @@
 //! Encryption and Signature: `xmip-core-prepare`'s units over the engines
-//! this module links, the first `rpgp` for OpenPGP. CMS and JOSE are
+//! this module links, the first `rpgp` for `OpenPGP`. CMS and JOSE are
 //! formats a step may name and no engine here implements yet: a step
 //! naming one is refused, in words, when it is opened.
 

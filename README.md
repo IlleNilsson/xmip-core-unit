@@ -14,9 +14,9 @@ there beside its code as data (`xmip-core-node`'s `unit::Declaration`);
 `xmip-core-configure`'s `standard` writes the module's manifest from those
 declarations without linking a unit. This crate links the code, hands each
 unit the technologies it chooses among — the contract technologies to
-Validate, the path languages to Promote and Demote, `xrust` to Stylesheet,
-`rpgp` to Encryption and Signature — and opens them; a test holds that every
-declared unit is opened here and nothing else.
+Validate, the path languages to Promote and Demote, `rpgp` to Encryption
+and Signature, no engine yet to Stylesheet (open problem 53) — and opens
+them; a test holds that every declared unit is opened here and nothing else.
 
 | Capability | Units |
 | --- | --- |

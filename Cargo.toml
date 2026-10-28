@@ -24,8 +24,6 @@ demote = { package = "xmip-core-demote", git = "https://github.com/IlleNilsson/x
 process = { package = "xmip-core-process", git = "https://github.com/IlleNilsson/xmip-core-process", branch = "main" }
 # The OpenPGP engines Encryption and Signature choose among.
 rpgp = { package = "xmip-core-prepare-rpgp", git = "https://github.com/IlleNilsson/xmip-core-prepare-rpgp", branch = "main" }
-# The XSLT engines the Stylesheet unit chooses among.
-xrust_engine = { package = "xmip-core-transform-xrust", git = "https://github.com/IlleNilsson/xmip-core-transform-xrust", branch = "main" }
 # The contract technologies Validate holds a Stream to, by its format.
 asyncapi = { package = "xmip-core-contract-asyncapi", git = "https://github.com/IlleNilsson/xmip-core-contract-asyncapi", branch = "main" }
 avro = { package = "xmip-core-contract-avro", git = "https://github.com/IlleNilsson/xmip-core-contract-avro", branch = "main" }

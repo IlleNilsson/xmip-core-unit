@@ -1,6 +1,6 @@
 //! Promote and Demote: a value read out of the content into the context
 //! at receive, and written from the context into the content at send,
-//! through the path language a step names — XPath for XML, JSONPath and the
+//! through the path language a step names — `XPath` for XML, `JSONPath` and the
 //! content selector for JSON, an index for a CSV column, a segment and
 //! element for EDI, a field for HL7 v2, a regular expression for text —
 //! or, for Promote, a value the context already holds, a header the
@@ -113,7 +113,7 @@ mod tests {
             .collect()
     }
 
-    fn promoted(language: &str, expression: &str, content: &str) -> Option<ScalarValue> {
+    fn promoted(language: &str, expression: &str, content: &str) -> ScalarValue {
         let unit = PROMOTE_UNIT
             .open(
                 Stage::Receive,
@@ -129,10 +129,11 @@ mod tests {
             .expect("promotes")
             .get("Value")
             .cloned()
+            .expect("a value promoted")
     }
 
-    fn text(value: &str) -> Option<ScalarValue> {
-        Some(ScalarValue::Text(value.into()))
+    fn text(value: &str) -> ScalarValue {
+        ScalarValue::Text(value.into())
     }
 
     #[test]
@@ -189,7 +190,7 @@ mod tests {
         let promoted = unit
             .promote(&Content::of(&stream), context)
             .expect("promotes");
-        assert_eq!(promoted.get("Channel"), text("web").as_ref());
+        assert_eq!(promoted.get("Channel"), Some(&text("web")));
     }
 
     #[test]
@@ -229,8 +230,7 @@ mod tests {
                     ("expression", "x"),
                 ]),
             )
-            .err()
-            .expect("refused");
+            .expect_err("refused");
         assert!(
             refused.contains("no path language is called 'xquery'"),
             "{refused}"
@@ -244,8 +244,7 @@ mod tests {
                     ("expression", "/a"),
                 ]),
             )
-            .err()
-            .expect("refused");
+            .expect_err("refused");
         assert!(refused.contains("does not run at receive"), "{refused}");
     }
 }

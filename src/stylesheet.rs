@@ -1,7 +1,8 @@
 //! Stylesheet: `xmip-core-transform`'s XSLT unit over the engines this
-//! module links, the first `xrust` (Apache-2.0; XSLT 1.0). Another engine
-//! — SaxonC-HE among them — is a technology of the same trait, linked here
-//! or loaded as a module of its own (ADR-0061); a step chooses by `engine`.
+//! module links, none yet: an engine is a technology of the trait, linked
+//! here or loaded as a module of its own (ADR-0061), and admitted only where
+//! it reaches no network (open problem 53); a step chooses by `engine`, and
+//! one naming an engine not linked is refused, in words, when it is opened.
 
 use node::Stage;
 use node::unit::Unit;
@@ -11,7 +12,7 @@ use transform::stylesheet::{DECLARATION, StylesheetEngine};
 use crate::Values;
 
 /// The engines linked.
-const ENGINES: &[&dyn StylesheetEngine] = &[&xrust_engine::Xrust];
+const ENGINES: &[&dyn StylesheetEngine] = &[];
 
 /// Stylesheet, as the standard module declares it.
 pub const UNIT: Unit<dyn Transform> = Unit::new(DECLARATION, open);

@@ -14,7 +14,7 @@
 //! declared there beside its code; this crate links the code and the
 //! technologies, hands each unit the technologies it chooses among — the
 //! contract technologies to Validate, the path languages to Promote and
-//! Demote, `xrust` to Stylesheet, `rpgp` to Encryption and Signature — and
+//! Demote, `rpgp` to Encryption and Signature — and
 //! opens them.
 //!
 //! Every standard unit works offline (ADR-0045, amendment 2026-10-22): no
@@ -76,7 +76,7 @@ mod tests {
         );
         for declaration in &given {
             assert!(
-                opened.iter().any(|unit| *unit == *declaration),
+                opened.contains(declaration),
                 "{} is declared and not opened here",
                 declaration.name
             );
