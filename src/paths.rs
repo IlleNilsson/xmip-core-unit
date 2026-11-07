@@ -7,7 +7,7 @@
 //! transport set. Every path is compiled once, when its step is opened,
 //! through the one path engine this module links its languages into.
 
-use std::sync::OnceLock;
+use std::sync::LazyLock;
 
 use demote::{Demotion, DemotionTarget, PayloadDemotion};
 use node::Stage;
@@ -35,8 +35,7 @@ pub const LANGUAGES: &[&str] = &[
 
 /// The one engine, built the first time a step compiles a path.
 fn engine() -> &'static PathEngine {
-    static ENGINE: OnceLock<PathEngine> = OnceLock::new();
-    ENGINE.get_or_init(|| {
+    static ENGINE: LazyLock<PathEngine> = LazyLock::new(|| {
         PathEngine::new(vec![
             Box::new(xpath::XPathLanguage),
             Box::new(jsonpath::JsonPathLanguage),
@@ -48,7 +47,8 @@ fn engine() -> &'static PathEngine {
             Box::new(regex_path::RegexLanguage),
             Box::new(fhirpath::FhirPathLanguage),
         ])
-    })
+    });
+    &ENGINE
 }
 
 /// Promote, as the standard module declares it: at receive alone.
