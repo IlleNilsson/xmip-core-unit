@@ -273,7 +273,10 @@ mod tests {
         demote::apply_to_structure(&context, &mut rewriting, std::slice::from_ref(&*unit))
             .expect("writes");
         let written = rewriting.finish().expect("finishes");
-        assert!(String::from_utf8_lossy(written.bytes()).contains("<Status>closed</Status>"));
+        assert!(
+            String::from_utf8_lossy(written.load().expect("held"))
+                .contains("<Status>closed</Status>")
+        );
     }
 
     #[test]
