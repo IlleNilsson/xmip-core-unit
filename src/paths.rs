@@ -5,14 +5,16 @@
 //! element for EDI, a field for HL7 v2, a regular expression for text —
 //! or, for Promote, a value the context already holds, a header the
 //! transport set. Every path is compiled once, when its step is opened,
-//! through the one path engine this module links its languages into.
+//! through the one path engine this module links its languages into, its
+//! prefixes bound by the step's `namespaces` table and never by the content
+//! (ADR-0066, amendment 2026-11-08).
 
 use std::sync::LazyLock;
 
 use demote::{Demotion, DemotionTarget, PayloadDemotion};
 use node::Stage;
 use node::unit::Unit;
-use path::{Path, PathEngine};
+use path::{Namespaces, Path, PathEngine};
 use promote::Promotion;
 
 use crate::Values;
@@ -57,7 +59,20 @@ pub const PROMOTE_UNIT: Unit<Promotion> = Unit::new(promote::DECLARATION, open_p
 /// Demote, as the standard module declares it: at send alone.
 pub const DEMOTE_UNIT: Unit<PayloadDemotion> = Unit::new(demote::DECLARATION, open_demotion);
 
-fn compiled(unit: &str, language: &str, expression: &str) -> Result<path::CompiledPath, String> {
+/// The Path a step's `language`, `expression` and `namespaces` give
+/// (ADR-0066, amendment 2026-11-08).
+fn configured(values: &Values) -> Path {
+    let namespaces: Namespaces = values
+        .optional_table("namespaces")
+        .unwrap_or_default()
+        .iter()
+        .map(|(prefix, uri)| (prefix.as_str(), uri.as_str()))
+        .collect();
+    Path::new(values.text("language"), values.text("expression")).with_namespaces(namespaces)
+}
+
+fn compiled(unit: &str, path: &Path) -> Result<path::CompiledPath, String> {
+    let language = path.language.as_str();
     if !LANGUAGES.contains(&language) {
         return Err(format!(
             "{unit}: no path language is called '{language}'; this node has {}",
@@ -65,30 +80,29 @@ fn compiled(unit: &str, language: &str, expression: &str) -> Result<path::Compil
         ));
     }
     engine()
-        .compile(&Path::new(language, expression))
+        .compile(path)
         .map_err(|refused| format!("{unit}: {refused}"))
 }
 
 fn open_promotion(_: Stage, values: &Values) -> Result<Box<Promotion>, String> {
-    let (property, language, expression) = (
-        values.text("property"),
-        values.text("language"),
-        values.text("expression"),
-    );
-    Ok(Box::new(if language == CONTEXT {
-        Promotion::context(property, expression)
+    let (property, path) = (values.text("property"), configured(values));
+    Ok(Box::new(if path.language == CONTEXT {
+        path.namespaces
+            .unused_by(CONTEXT)
+            .map_err(|refused| format!("{PROMOTE}: {refused}"))?;
+        Promotion::context(property, path.expression)
     } else {
-        Promotion::content(property, compiled(PROMOTE, language, expression)?)
+        Promotion::content(property, compiled(PROMOTE, &path)?)
     }))
 }
 
 fn open_demotion(_: Stage, values: &Values) -> Result<Box<PayloadDemotion>, String> {
-    let (language, expression) = (values.text("language"), values.text("expression"));
-    compiled(DEMOTE, language, expression)?;
+    let target_path = configured(values);
+    compiled(DEMOTE, &target_path)?;
     let demotion = Demotion {
         context_key: values.text("property").to_string(),
         target: DemotionTarget::PayloadElement,
-        target_path: Path::new(language, expression),
+        target_path,
     };
     demotion
         .compile(engine())
@@ -169,6 +183,49 @@ mod tests {
                 "MSH|^~\\&|A|B|C|D|20260101||ADT^A01|1|P|2.5\rPID|1||9||DOE^JOHN\r"
             ),
             text("JOHN")
+        );
+    }
+
+    #[test]
+    fn a_step_binds_its_prefixes_through_its_namespaces_and_refuses_one_it_does_not_bind() {
+        let mut settings = given(&[
+            ("property", "Value"),
+            ("language", "xpath"),
+            ("expression", "/o:Order/o:Id"),
+        ]);
+        let unbound = PROMOTE_UNIT
+            .open(Stage::Receive, &settings)
+            .expect_err("refused");
+        assert!(
+            unbound.contains("uses the prefix o, which the path's namespaces do not bind"),
+            "{unbound}"
+        );
+        settings.push((
+            "namespaces".to_string(),
+            Given::Table(vec![(
+                "o".to_string(),
+                Given::Text("urn:example:order".into()),
+            )]),
+        ));
+        let unit = PROMOTE_UNIT.open(Stage::Receive, &settings).expect("opens");
+        let stream = Stream::new(
+            StreamId::new(1),
+            br#"<ord:Order xmlns:ord="urn:example:order"><ord:Id>A-1</ord:Id></ord:Order>"#
+                .to_vec(),
+            None,
+        );
+        let promoted = unit
+            .promote(&Content::of(&stream), MessageContext::new())
+            .expect("promotes");
+        assert_eq!(promoted.get("Value"), Some(&text("A-1")));
+
+        settings[1].1 = Given::Text(CONTEXT.into());
+        let refused = PROMOTE_UNIT
+            .open(Stage::Receive, &settings)
+            .expect_err("refused");
+        assert!(
+            refused.contains("context has no namespaces, and the path binds o"),
+            "{refused}"
         );
     }
 

@@ -22,8 +22,8 @@ them; a test holds that every declared unit is opened here and nothing else.
 | --- | --- |
 | prepare | Compression, CharacterEncoding, TransferEncoding, TextNormalization, Encryption, Signature (`xmip-core-prepare`) |
 | validate | Validate: `format`, a contract technology, and `contract`, its reference |
-| promote | Promote, at receive: `property`, `language`, `expression` |
-| demote | Demote, at send: `property`, `language`, `expression` |
+| promote | Promote, at receive: `property`, `language`, `expression`, `namespaces` |
+| demote | Demote, at send: `property`, `language`, `expression`, `namespaces` |
 | transform | Convert, Stylesheet, Script (`xmip-core-transform`) |
 | work-process | Debatch — declared, not built |
 
