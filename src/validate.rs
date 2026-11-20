@@ -61,10 +61,9 @@ fn open(_: Stage, values: &Values) -> Result<Box<dyn Contract>, String> {
                 linked.join(", ")
             )
         })?;
-    let given: Vec<(String, Given)> = values
-        .optional_text("contract")
-        .map(|contract| vec![("reference".to_string(), Given::Text(contract.to_string()))])
-        .unwrap_or_default();
+    let given: Vec<(String, Given)> = values.optional_text("contract").map_or_default(|contract| {
+        vec![("reference".to_string(), Given::Text(contract.to_string()))]
+    });
     factory
         .open(Applies::Both, &given)
         .map_err(|refused| format!("{NAME}: {refused}"))
@@ -111,9 +110,7 @@ mod tests {
 
     #[test]
     fn a_remote_reference_is_refused_when_the_step_opens_and_never_fetched() {
-        let directory =
-            std::env::temp_dir().join(format!("xmip-unit-validate-{}", std::process::id()));
-        std::fs::create_dir_all(&directory).expect("a directory");
+        let directory = file::temporary::Folder::new("unit-validate");
         let schema = directory.join("remote.json");
         std::fs::write(
             &schema,
@@ -136,6 +133,5 @@ mod tests {
             .err()
             .expect("refused");
         assert!(refused.contains("import"), "{refused}");
-        let _ = std::fs::remove_dir_all(&directory);
     }
 }
