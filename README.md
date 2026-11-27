@@ -36,11 +36,6 @@ Not built: running a unit — a node refuses a Port or Location that attaches a
 step until the runtime runs them; CMS and JOSE, which no linked engine
 implements; Debatch, which the Work Process engine will call.
 
-## Toolchain
-
-`rust-toolchain.toml` pins the toolchain for the whole estate. Do not change it
-here.
-
 ## Verification
 
 The included workflow is manual-only and calls the versioned shared workflow at
