@@ -35,7 +35,7 @@ const FACTORIES: &[&dyn ContractFactory] = &[
     &protobuf::ProtobufFactory,
     &regex::RegexContractFactory,
     &schematron::SchematronFactory,
-    &sql::SqlFactory,
+    &contract_sql::SqlFactory,
     &toml::TomlFactory,
     &toon::ToonFactory,
     &wsdl::WsdlFactory,

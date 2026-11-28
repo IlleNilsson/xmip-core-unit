@@ -9,49 +9,49 @@ description = "The standard units: Xmip's own module of compiled units at receiv
 [dependencies]
 # The declaration of a unit and the stages it runs at, and the settings
 # shape every declaration is written in.
-node = { package = "xmip-core-node", git = "https://github.com/IlleNilsson/xmip-core-node", branch = "main" }
-xcore = { package = "xmip-core", git = "https://github.com/IlleNilsson/xmip-core", branch = "main" }
+node = { workspace = true }
+xcore = { workspace = true }
 # The capabilities whose units these are, each unit implemented there once.
-prepare = { package = "xmip-core-prepare", git = "https://github.com/IlleNilsson/xmip-core-prepare", branch = "main" }
-transform = { package = "xmip-core-transform", git = "https://github.com/IlleNilsson/xmip-core-transform", branch = "main" }
-contract = { package = "xmip-core-contract", git = "https://github.com/IlleNilsson/xmip-core-contract", branch = "main" }
-path = { package = "xmip-core-path", git = "https://github.com/IlleNilsson/xmip-core-path", branch = "main" }
-promote = { package = "xmip-core-promote", git = "https://github.com/IlleNilsson/xmip-core-promote", branch = "main" }
-demote = { package = "xmip-core-demote", git = "https://github.com/IlleNilsson/xmip-core-demote", branch = "main" }
-process = { package = "xmip-core-process", git = "https://github.com/IlleNilsson/xmip-core-process", branch = "main" }
+prepare = { workspace = true }
+transform = { workspace = true }
+contract = { workspace = true }
+path = { workspace = true }
+promote = { workspace = true }
+demote = { workspace = true }
+process = { workspace = true }
 # The OpenPGP engines Encryption and Signature choose among.
-rpgp = { package = "xmip-core-prepare-rpgp", git = "https://github.com/IlleNilsson/xmip-core-prepare-rpgp", branch = "main" }
+rpgp = { workspace = true }
 # The contract technologies Validate holds a Stream to, by its format.
-asyncapi = { package = "xmip-core-contract-asyncapi", git = "https://github.com/IlleNilsson/xmip-core-contract-asyncapi", branch = "main" }
-avro = { package = "xmip-core-contract-avro", git = "https://github.com/IlleNilsson/xmip-core-contract-avro", branch = "main" }
-csv = { package = "xmip-core-contract-csv", git = "https://github.com/IlleNilsson/xmip-core-contract-csv", branch = "main" }
-edifact = { package = "xmip-core-contract-edi-edifact", git = "https://github.com/IlleNilsson/xmip-core-contract-edi-edifact", branch = "main" }
-x12 = { package = "xmip-core-contract-edi-x12", git = "https://github.com/IlleNilsson/xmip-core-contract-edi-x12", branch = "main" }
-fhir = { package = "xmip-core-contract-fhir", git = "https://github.com/IlleNilsson/xmip-core-contract-fhir", branch = "main" }
-fixed_width = { package = "xmip-core-contract-fixed-width", git = "https://github.com/IlleNilsson/xmip-core-contract-fixed-width", branch = "main" }
-graphql_schema = { package = "xmip-core-contract-graphql-schema", git = "https://github.com/IlleNilsson/xmip-core-contract-graphql-schema", branch = "main" }
-hl7_v2 = { package = "xmip-core-contract-hl7-v2", git = "https://github.com/IlleNilsson/xmip-core-contract-hl7-v2", branch = "main" }
-json_schema = { package = "xmip-core-contract-json-schema", git = "https://github.com/IlleNilsson/xmip-core-contract-json-schema", branch = "main" }
-openapi = { package = "xmip-core-contract-openapi", git = "https://github.com/IlleNilsson/xmip-core-contract-openapi", branch = "main" }
-protobuf = { package = "xmip-core-contract-protobuf", git = "https://github.com/IlleNilsson/xmip-core-contract-protobuf", branch = "main" }
-regex = { package = "xmip-core-contract-regex", git = "https://github.com/IlleNilsson/xmip-core-contract-regex", branch = "main" }
-schematron = { package = "xmip-core-contract-schematron", git = "https://github.com/IlleNilsson/xmip-core-contract-schematron", branch = "main" }
-sql = { package = "xmip-core-contract-sql", git = "https://github.com/IlleNilsson/xmip-core-contract-sql", branch = "main" }
-toml = { package = "xmip-core-contract-toml", git = "https://github.com/IlleNilsson/xmip-core-contract-toml", branch = "main" }
-toon = { package = "xmip-core-contract-toon", git = "https://github.com/IlleNilsson/xmip-core-contract-toon", branch = "main" }
-wsdl = { package = "xmip-core-contract-wsdl", git = "https://github.com/IlleNilsson/xmip-core-contract-wsdl", branch = "main" }
-xml_schema = { package = "xmip-core-contract-xml-schema", git = "https://github.com/IlleNilsson/xmip-core-contract-xml-schema", branch = "main" }
-yaml = { package = "xmip-core-contract-yaml", git = "https://github.com/IlleNilsson/xmip-core-contract-yaml", branch = "main" }
+asyncapi = { workspace = true }
+avro = { workspace = true }
+csv = { workspace = true }
+edifact = { workspace = true }
+x12 = { workspace = true }
+fhir = { workspace = true }
+fixed_width = { workspace = true }
+graphql_schema = { workspace = true }
+hl7_v2 = { workspace = true }
+json_schema = { workspace = true }
+openapi = { workspace = true }
+protobuf = { workspace = true }
+regex = { workspace = true }
+schematron = { workspace = true }
+contract_sql = { workspace = true }
+toml = { workspace = true }
+toon = { workspace = true }
+wsdl = { workspace = true }
+xml_schema = { workspace = true }
+yaml = { workspace = true }
 # The path languages Promote and Demote read and write through.
-xpath = { package = "xmip-core-path-xpath", git = "https://github.com/IlleNilsson/xmip-core-path-xpath", branch = "main" }
-jsonpath = { package = "xmip-core-path-jsonpath", git = "https://github.com/IlleNilsson/xmip-core-path-jsonpath", branch = "main" }
-dot = { package = "xmip-core-path-dot", git = "https://github.com/IlleNilsson/xmip-core-path-dot", branch = "main" }
-json_pointer = { package = "xmip-core-path-json-pointer", git = "https://github.com/IlleNilsson/xmip-core-path-json-pointer", branch = "main" }
-index = { package = "xmip-core-path-index", git = "https://github.com/IlleNilsson/xmip-core-path-index", branch = "main" }
-edi = { package = "xmip-core-path-edi", git = "https://github.com/IlleNilsson/xmip-core-path-edi", branch = "main" }
-hl7_v2_path = { package = "xmip-core-path-hl7-v2", git = "https://github.com/IlleNilsson/xmip-core-path-hl7-v2", branch = "main" }
-regex_path = { package = "xmip-core-path-regex", git = "https://github.com/IlleNilsson/xmip-core-path-regex", branch = "main" }
-fhirpath = { package = "xmip-core-path-fhirpath", git = "https://github.com/IlleNilsson/xmip-core-path-fhirpath", branch = "main" }
+xpath = { workspace = true }
+jsonpath = { workspace = true }
+dot = { workspace = true }
+json_pointer = { workspace = true }
+index = { workspace = true }
+edi = { workspace = true }
+hl7_v2_path = { workspace = true }
+regex_path = { workspace = true }
+fhirpath = { workspace = true }
 
 # The module's timing program (doc/governance/rust-style.md section 5c): a
 # plain cargo test leaves it out, and the landing runs it after every other
@@ -64,11 +64,11 @@ test = false
 [dev-dependencies]
 # The counting allocator and the one latency spread the estate's tests
 # measure with.
-xcore = { package = "xmip-core", git = "https://github.com/IlleNilsson/xmip-core", branch = "main", features = ["test-support"] }
+xcore = { workspace = true, features = ["test-support"] }
 # A test's own temporary folder (`file::temporary`); for the tests only.
-file = { package = "xmip-core-library-file", git = "https://github.com/IlleNilsson/xmip-core-library-file", branch = "main", features = ["test-support"] }
-stream = { package = "xmip-core-stream", git = "https://github.com/IlleNilsson/xmip-core-stream", branch = "main" }
-context = { package = "xmip-core-context", git = "https://github.com/IlleNilsson/xmip-core-context", branch = "main" }
+file = { workspace = true, features = ["test-support"] }
+stream = { workspace = true }
+context = { workspace = true }
 
 [lints]
 workspace = true
